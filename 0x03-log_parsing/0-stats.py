@@ -4,49 +4,47 @@ import sys
 import signal
 
 
-# Create dictionary to store number of lines for each status code
+# Define a dictionary to store the number of lines for each status code
 status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 
-# Initializing the total file size and the number of lines
-file_size = 0
-num_lines = 0
+# Initialize the total file size and line count to zero
+total_size = 0
+line_count = 0
 
 
-def status_to_print():
-    '''Returns/prints the current status'''
-    print("File size: {}".format(file_size))
-    for stat in sorted(status_codes.keys()):
-        if status_codes[stat] > 0:
-            print("{}: {}".format(stat, status_codes[stat]))
+def print_stats():
+    '''Prints the current stats'''
+    print("File size: {}".format(total_size))
+    for code in sorted(status_codes.keys()):
+        if status_codes[code] > 0:
+            print("{}: {}".format(code, status_codes[code]))
 
 
-def handle_signal(sig, frame):
-    '''Create handler for signals that will print stats
-        when script is interrupted
-    '''
-    status_to_print()
+def signal_handler(sig, frame):
+    '''Handles signal to print stats when script is interrupted'''
+    print_stats()
     sys.exit(0)
 
+# Register the signal handler for the SIGINT signal (CTRL+C)
+signal.signal(signal.SIGINT, signal_handler)
 
-# Register the handler for signals for the SIGINT signal (CTRL+C)
-signal.signal(signal.SIGINT, handle_signal)
-
-# Read and parse lines from stdin
+# Read lines from standard input and parse them
 for line in sys.stdin:
     try:
-        element = line.split(" ")
-        i_p = element[0]
-        stats = int(element[8])
-        size = int(element[9])
-        file_size += size
-        status_codes[stats] += 1
-        num_lines += 1
-        if num_lines == 10:
-            status_to_print()
-            num_lines = 0
+        parts = line.split(" ")
+        ip, _, _, _, _, _, _ = parts[:7]
+        code = int(parts[8])
+        size = int(parts[9])
+        total_size += size
+        if code in status_codes:
+            status_codes[code] += 1
+        line_count += 1
+        if line_count == 10:
+            print_stats()
+            line_count = 0
     except (IndexError, ValueError):
-        # If line not in actual format, skip it
+        # If the line is not in the specified format, skip it
         continue
 
-# When there is no more input print stats
-status_to_print()
+# Print the final statistics when there is no more input
+print_stats()
