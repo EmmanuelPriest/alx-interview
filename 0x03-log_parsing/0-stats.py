@@ -11,6 +11,7 @@ status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 file_size = 0
 num_lines = 0
 
+
 def status_to_print():
     '''Returns/prints the current status'''
     print("File size: {}".format(file_size))
@@ -18,12 +19,14 @@ def status_to_print():
         if status_codes[stat] > 0:
             print("{}: {}".format(stat, status_codes[stat]))
 
+
 def handle_signal(sig, frame):
     '''Create handler for signals that will print stats
         when script is interrupted
     '''
     status_to_print()
     sys.exit(0)
+
 
 # Register the handler for signals for the SIGINT signal (CTRL+C)
 signal.signal(signal.SIGINT, handle_signal)
