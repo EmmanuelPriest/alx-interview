@@ -4,37 +4,49 @@
 
 def validUTF8(data):
     '''
-    Determine if a given data set represents a valid UTF-8 encoding.
-
+    Determines if a given data set is a valid UTF-8 encoding
     Args:
-        data (List[int]): A list of integers representing the
-        bytes of the data.
-
+        data (list): List of integers representing the data set
     Returns:
-        bool: True if data is a valid UTF-8 encoding, else False.
+        True if data is a valid UTF-8 encoding, otherwise False
     '''
-    # Loop through the data one byte at a time.
-    i = 0
-    while i < len(data):
-        # Check whether the current byte is the start of a character.
-        byte = data[i]
-        if byte & 0x80 == 0x00:  # Single-byte character
-            i += 1
-        elif byte & 0xE0 == 0xC0:  # Two-byte character
-            if i + 1 >= len(data) or data[i + 1] & 0xC0 != 0x80:
-                return False
-            i += 2
-        elif byte & 0xF0 == 0xE0:  # Three-byte character
-            if i + 2 >= len(data) or data[i + 1] & 0xC0 != 0x80 or
-            data[i + 2] & 0xC0 != 0x80:
-                return False
-            i += 3
-        elif byte & 0xF8 == 0xF0:  # Four-byte character
-            if i + 3 >= len(data) or data[i + 1] & 0xC0 != 0x80 or
-            data[i + 2] & 0xC0 != 0x80 or data[i + 3] & 0xC0 != 0x80:
-                return False
-            i += 4
-        else:  # Invalid byte
-            return False
 
+    # Counter variable to determine the number of
+    # corresponding 1's in the current byte
+    num_1s = 0
+
+    for byte in data:
+        # Check for the continuability of the curent byte via bit manipulation
+        if (byte >> 6) == 0b10:  # Binary representation of 2
+
+            # Returns False if 1st byte of char
+            if num_1s == 0:
+                return False
+
+            # Since its a continuation byte decrement the 1's
+            num_1s -= 1
+        else:
+            # Return False if byte is continuous
+            if num_1s != 0:
+                return False
+
+            # Checks for the byte of a single-byte char
+            if (byte >> 7) == 0:
+                num_1s = 0
+
+                # Checks for 1st byte of two-byte char
+            elif (byte >> 5) == 0b110:  # Binary representation 6
+                num_1s = 1
+
+                # Checks for 1st byte of three-byte char
+            elif (byte >> 4) == 0b1110:  # Binary representation of 14
+                num_1s = 2
+
+                # Checks for 1st byte of four-byte char
+            elif (byte >> 3) == 0b11110:  # Binary representation of 30
+                num_1s = 3
+            else:
+                return False  # For invalid byte
+
+    # When all bytes in the data set are a valid UTF-8 encoding
     return True
