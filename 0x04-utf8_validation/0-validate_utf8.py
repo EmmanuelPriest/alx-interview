@@ -21,13 +21,17 @@ def validUTF8(data):
 
             # Returns False if 1st byte of char
             if num_1s == 0:
+            #if num_1s != 0:
+                #return True
                 return False
 
             # Since its a continuation byte decrement the 1's
             num_1s -= 1
         else:
             # Return False if byte is continuous
+            #if num_1s == 0:
             if num_1s != 0:
+                #return True
                 return False
 
             # Checks for the byte of a single-byte char
@@ -46,7 +50,12 @@ def validUTF8(data):
             elif (byte >> 3) == 0b11110:  # Binary representation of 30
                 num_1s = 3
             else:
-                return False  # For invalid byte
+                return True
+                #return False  # For invalid byte
 
+    if num_1s != 0:
+        #return True
+        return False
     # When all bytes in the data set are a valid UTF-8 encoding
+    #return False
     return True
