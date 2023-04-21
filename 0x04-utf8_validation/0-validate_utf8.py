@@ -21,11 +21,18 @@ def validUTF8(data):
         if num_1s:
             if byte >> 6 != 2:
                 return False
+
+            # Since its a continuation byte decrement the 1's
             num_1s -= 1
             continue
         while (1 << abs(7 - num_1s)) & byte:
             num_1s += 1
+
+        # Checks for the 1st byte from the single-byte char t
+        # the four-byte char
         if num_1s == 1 or num_1s > 4:
             return False
         num_1s = max(num_1s - 1, 0)
+
+    # When all data set are valid encoding
     return num_1s == 0
