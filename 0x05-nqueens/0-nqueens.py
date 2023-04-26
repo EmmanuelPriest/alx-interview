@@ -28,6 +28,7 @@ def is_valid(board, rank, file, n):
             return False
     return True
 
+
 def nqueens_generator(board, rank, n, outcome):
     '''
     Helps to generate all valid solutions to the N Queens problem
@@ -40,7 +41,7 @@ def nqueens_generator(board, rank, n, outcome):
     # Append a copy of the board to the outcome list if we have
     # placed all Queens in all ranks(rows) of the board
     if rank == n:
-        outcome.append(board[:]) # make a copy of the board
+        outcome.append(board[:])  # make a copy of the board
         return
     # Try to place a Queen in each file(column) of the current rank(row)
     for file in range(n):
@@ -48,6 +49,7 @@ def nqueens_generator(board, rank, n, outcome):
             board[rank][file] = 1
             nqueens_generator(board, rank + 1, n, outcome)
             board[rank][file] = 0
+
 
 def nqueens_solution(n):
     '''
