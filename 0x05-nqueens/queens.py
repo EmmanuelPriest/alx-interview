@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' Program that solves the N Queens problem '''
+'''Program that solves the N Queens problem'''
 import sys
 
 

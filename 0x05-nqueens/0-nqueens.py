@@ -29,40 +29,23 @@ def nQueens(board, outcome, file, rank, n):
                          [rank - 1, y + 1] not in board and
                          y not in file):
             if rank > 1:
-                z-axis = 0
+                z_axis = 0
                 # Try to move a Queen diagonally from one file(column) or
                 # the other of the current rank(row)
                 for m in range(2, rank + 1):
-                    if ([rank - m, y - m] in board) or
-                    ([rank - m, y + m] in board):
-                        z-axis = 1
-                        bra
-            board[rank][file] = 1
-            nqueens_generator(board, rank + 1, n, outcome)
-            board[rank][file] = 0
+                    if ([rank - m, y - m] in board) or ([rank - m, y + m]
+                                                        in board):
+                        z_axis = 1
+                        break
+                if z_axis:
+                    continue
+            board.append([rank, y])
+            file.append(y)
+            nQueens(board, outcome, file, rank + 1, n)
+            file.pop()
+            board.pop()
 
-
-def nqueens_solution(n):
-    '''
-    Generates the actual solution to the N Queen problem
-    Args:
-        n (int): The board size
-    Returns:
-        List of solutions found
-    '''
-    # Checks if n is an integer
-    if not isinstance(n, int):
-        print("N must be a number")
-        sys.exit(1)
-    # Checks if n is less than 4
-    elif n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-    board = [[0] * n for x in range(n)]
-    outcome = []
-    nqueens_generator(board, 0, n, outcome)
-    for solution in outcome:
-        print(solution)
+    return outcome
 
 
 if __name__ == "__main__":
@@ -75,4 +58,17 @@ if __name__ == "__main__":
     except ValueError:
         print("N must be a number")
         sys.exit(1)
-    nqueens_solution(n)
+
+    #  Checks if n is an integer
+    if not isinstance(n, int):
+        print("N must be a number")
+        sys.exit(1)
+
+    # Checks if n is less than 4
+    elif n < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    nQueen_board = nQueens([], [], [], 0, n - 1)
+    for x in nQueen_board:
+        print(x)
