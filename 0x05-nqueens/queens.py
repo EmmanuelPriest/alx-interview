@@ -3,40 +3,49 @@
 import sys
 
 
-def nQueens(board, outcome, file, rank, n):
+def is_valid(board, rank, file, n):
     '''
-    Generates the actual solution to the N Queen problem and
-    store in the outcome list
+    Checks the validity of placing a queen at a given position on the board
     Args:
         board (list): List of n rank(rows) and n file(columns)
         rank (int): Current row being evaluated
         file (int): Current column being evaluated
-        outcome (list): List to store solutions as arguments
         n (list): The board size
-    Returns:
-        The list of solutions found
+    Returns (boolean):
+        True if valid to place a queen on the board, otherwise False
     '''
+    # Checks if there are no Queens in the same file(column)
+    for x in range(rank):
+        if board[x][file]:
+            return False
+    # Checks if there are no Queens in the same diagonal
+    for x, y in zip(range(rank, -1, -1), range(file, -1, -1)):
+        if board[x][y]:
+            return False
+    # Checks if there are no Queens in the same anti-diagonal
+    for x, y in zip(range(rank, -1, -1), range(file, n)):
+        if board[x][y]:
+            return False
+    return True
 
+
+def nqueens_generator(board, rank, n, outcome):
+    '''
+    Helps to generate all valid solutions to the N Queens problem
+    Args:
+        board (list): List of n rank(rows) and n file(columns)
+        rank (int): Current row being evaluated
+        n (int): The board size
+        outcome (list): List to store solutions as arguments
+    '''
     # Append a copy of the board to the outcome list if we have
     # placed all Queens in all ranks(rows) of the board
-    if rank > n:
+    if rank == n:
         outcome.append(board[:])  # make a copy of the board
-        return outcome
-
+        return
     # Try to place a Queen in each file(column) of the current rank(row)
-    for y in range(n + 1):
-        if rank == 0 or ([rank - 1, y - 1] not in board and
-                         [rank - 1, y + 1] not in board and
-                         y not in file):
-            if rank > 1:
-                z-axis = 0
-                # Try to move a Queen diagonally from one file(column) or
-                # the other of the current rank(row)
-                for m in range(2, rank + 1):
-                    if ([rank - m, y - m] in board) or
-                    ([rank - m, y + m] in board):
-                        z-axis = 1
-                        bra
+    for file in range(n):
+        if is_valid(board, rank, file, n):
             board[rank][file] = 1
             nqueens_generator(board, rank + 1, n, outcome)
             board[rank][file] = 0
