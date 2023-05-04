@@ -13,16 +13,18 @@ request(`https://swapi-api.alx-tools.com/api/films/${movieId}/`, (error, respons
   } else {
     const data = JSON.parse(body);
     const characters = data.characters;
-
-    characters.forEach((character) => {
-      request(character, (error, response, body) => {
-        if (error) {
-          console.error(error);
-        } else {
-          const characterData = JSON.parse(body);
-          console.log(characterData.name);
-        }
-      });
-    });
+    respRequestReturn(characters, 0);
   }
 });
+
+function respRequestReturn (character, idx) {
+  request(character[idx], (error, response, body) => {
+    if (error) {
+      console.error(error);
+    } else {
+      const characterData = JSON.parse(body);
+      console.log(characterData.name);
+      if (idx + 1 < character.length) respRequestReturn(character, ++idx);
+    }
+  });
+}
