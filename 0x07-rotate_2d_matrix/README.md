@@ -25,8 +25,8 @@ We can transpose and reverse it like this:<br>
 <br>
 The above example is what we refer to as a matrix being edited in-place. For a matrix to be edited in place it means that the original or given matrix is being modified directly without creating a new one which in turn occupy the same memory space as the original matrix.
 <br>
-<h2 style="color: blue; font-family: sans-serif; font-weight: bold;">CONCLUSION</h2>
-In conclusion, 2D Mtrix Rotation cannot be applied to a non-square matrix because of the follow:<br>
+<h2 style="color: blue; font-family: Courier New; font-weight: bold;">CONCLUSION</h2>
+In conclusion, 2D Matrix Rotation cannot be applied to a non-square matrix because of the follow:<br>
 <ol>
 <li>In the transposition step, the rows of the matrix are swapped with the corresponding columns. This operation assumes that the matrix has an equal number of rows and columns. If the matrix is non-square, the transposition would not be possible without changing the dimensions of the matrix.</li>
 <br>
