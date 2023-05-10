@@ -21,7 +21,7 @@ def rotate_2d_matrix(matrix):
     for x in range(matrix_len):
         for y in range(x, matrix_len):
 
-            # Swapping the rows with the columns
+            # Swapping the rows with the corresponding columns
             matrix[x][y], matrix[y][x] = matrix[y][x], matrix[x][y]
 
     # Reversing each row
