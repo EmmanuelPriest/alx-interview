@@ -16,7 +16,7 @@ def rotate_2d_matrix(matrix):
     '''
     # Getting length of the original matrix
     matrix_len = len(matrix)
-    
+
     # Transposing the original matrix
     for x in range(matrix_len):
         for y in range(x, matrix_len):
