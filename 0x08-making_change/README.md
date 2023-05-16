@@ -1,4 +1,4 @@
-## NAKING CHANGE PROBLEM
+## MAKING CHANGE PROBLEM
 <strong>Making change problem</strong> in Python is all about the task of calculating the minimum number of coins or bills needed to represent a given amount of money(in this case total amount). This problem is often encountered in computer science and programming courses as an exercise in dynamic programming or greedy algorithms.
 <br>
 Several algorithms can be applied in solving the <em>Making Change Problem</em>:<br>
