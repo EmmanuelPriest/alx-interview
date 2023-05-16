@@ -16,24 +16,18 @@ def makeChange(coins, total):
         If total is 0 or less, return 0
         If total cannot be met by any number of coins you have, return -1
     '''
-    # Returns 0 indicating that no coins are needed
     if total <= 0:
         return 0
 
-    # Create list to hold the fewest number of coins needed for each total
-    num_coins = [float('inf')] * (total + 1)
-    num_coins[0] = 0
+    # Sort the coins in descending order
+    coins.sort(reverse=True)
 
-    # Calculates how many times each coins can be used to make change
-    # for the remaining total
-    for few_coin in coins:
-        for amt in range(few_coin, total + 1):
-            num_coins[amt] = min(num_coins[amt],
-                                 num_coins[amt - few_coin] + 1)
+    num_coins = 0
+    remaining_total = total
 
-    # Returns the fewest number of coins needed to make the desired total
-    # else the change will not be possible
-    # if few_num_coins[total] != float('inf'):
-    return num_coins[total] if num_coins[total] != float('inf') else -1
-    # else:
-    # return -1
+    for coin in coins:
+        if coin <= remaining_total:
+            num_coins += remaining_total // coin
+            remaining_total %= coin
+
+    return num_coins if remaining_total == 0 else -1
